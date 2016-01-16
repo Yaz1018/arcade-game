@@ -12,10 +12,11 @@ var Enemy = function(x, y) {
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-    if (this.x < 540){
+    var offScreen = 540
+    if (this.x < offScreen){
         //console.log(dt);
         var randomNumber = Math.floor((Math.random() * 100) + 50);
-        this.x += randomNumber*dt;
+        this.x += randomNumber * dt;
         } else {
             var randomX = -(Math.floor((Math.random() * 500) + 10));
             this.x = randomX;
@@ -28,7 +29,7 @@ Enemy.prototype.update = function(dt) {
         player.y + 85 > this.y
         ) {
         //alert player he was caught
-        $('body').append("<h1 id='caught'>CAUGHT!</h1>");
+        $('body').append('<h1 id="caught">CAUGHT!</h1>');
         //remove alert after half a second
         setTimeout(function(){
             $('#caught').remove();
@@ -62,19 +63,20 @@ Theplayer.prototype.update = function(dt){
 Theplayer.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+var player = new Theplayer(200, 400);
 
 //Create actions for key presses
-Theplayer.prototype.handleInput = function(key){
-    if (key === 'left' && player.x >0){
-        player.x -=100;
-    } else if (key === 'right' && player.x < 400){
-        player.x +=100;
-    } else if (key === 'up' && player.y > 60){
-        player.y -=85;
-    } else if (key === 'down' && player.y < 400){
-        player.y +=85;
-    } else if (key === 'up' && player.y > 0){ //When player goes in water reset game
-        player.y -=85;
+player.handleInput = function(key){
+    if (key === 'left' && this.x >0){
+        this.x -=100;
+    } else if (key === 'right' && this.x < 400){
+        this.x +=100;
+    } else if (key === 'up' && this.y > 60){
+        this.y -=85;
+    } else if (key === 'down' && this.y < 400){
+        this.y +=85;
+    } else if (key === 'up' && this.y > 0){ //When player goes in water reset game
+        this.y -=85;
         //alert player they got wet
         $('body').append("<h1 id='alert'>SPLASH!</h1>");
         //remove alert after half a second
@@ -82,11 +84,12 @@ Theplayer.prototype.handleInput = function(key){
             $('#alert').remove();
         }, 500);
         //send player back to starting position
+        var that = this;
         setTimeout(function(){
-            player.y = 400;
-            player.x = 200;
+            that.y = 400;
+            that.x = 200;
             //redraw canvas to remove player avater from border
-            ctx.clearRect(0, 0, 505, 606); 
+            ctx.clearRect(0, 0, 505, 606);
         }, 300);
 }
 };
@@ -101,7 +104,6 @@ var enemy5 = new Enemy(-300, 230);
 // Place all enemy objects in an array allEnemies
 var allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
 // Place the player object in a variable called player
-var player = new Theplayer(200, 400);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -112,6 +114,6 @@ document.addEventListener('keyup', function(e) {
         39: 'right',
         40: 'down'
     };
-    Theplayer.prototype.handleInput(allowedKeys[e.keyCode]);
+    player.handleInput(allowedKeys[e.keyCode]);
 });
 
