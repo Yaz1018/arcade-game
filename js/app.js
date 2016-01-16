@@ -101,7 +101,7 @@ var enemy5 = new Enemy(-300, 230);
 // Place all enemy objects in an array allEnemies
 var allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
 // Place the player object in a variable called player
-var player = new theplayer(200, 400);
+var player = new Theplayer(200, 400);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
